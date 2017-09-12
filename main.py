@@ -18,7 +18,7 @@ class DownloadThread(QtCore.QThread):
 
     def run(self):
         self.host = socket.gethostname()
-        self.port = 12346
+        self.port = 12345
         self.s = socket.socket()
         self.s.connect((self.host, self.port))
         print("Sending", self.text_from_combobox)
@@ -26,7 +26,7 @@ class DownloadThread(QtCore.QThread):
             self.s.send(str.encode("Carnival-AU"))
         else:
             self.s.send(str.encode(self.text_from_combobox))
-        response = self.s.recv(2048).decode("utf-8")
+        response = self.s.recv(1024).decode("utf-8")
         print(response)
         self.data_downloaded.emit(response)
 
