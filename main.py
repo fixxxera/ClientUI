@@ -27,7 +27,10 @@ class DownloadThread(QtCore.QThread):
         else:
             self.s.send(str.encode(self.text_from_combobox))
         response = self.s.recv(1024).decode("utf-8")
-        print(response)
+        if 'Success' in response:
+            print(response)
+        else:
+            response = response.split()[0] + " Failed!"
         self.data_downloaded.emit(response)
 
         self.s.close()
@@ -92,10 +95,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             downloader.start()
 
     def on_data_ready(self, data):
-        self.label.setText(data)
-        self.label_2.clear()
-        self.label_2.setPixmap(QtGui.QPixmap('done.gif'))
-
+        if 'Success' in data:
+            self.label.setText(data)
+            self.label_2.clear()
+            self.label_2.setPixmap(QtGui.QPixmap('done.gif'))
+        else:
+            self.label.setText(data)
+            self.label_2.clear()
+            self.label_2.setPixmap(QtGui.QPixmap('failed.png'))
 
 def main():
     app = QApplication(sys.argv)
