@@ -1,6 +1,5 @@
 import socket
 import sys
-from multiprocessing.pool import Pool, ThreadPool
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import QMovie
@@ -17,7 +16,7 @@ class DownloadThread(QtCore.QThread):
         self.text_from_combobox = text_from_combobox
 
     def run(self):
-        self.host = socket.gethostname()
+        self.host = "62.73.115.101"
         self.port = 12345
         self.s = socket.socket()
         self.s.connect((self.host, self.port))
